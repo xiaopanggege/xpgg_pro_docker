@@ -1,0 +1,15 @@
+/data/logs/nginx/*log {
+    daily
+    rotate 7
+    nocompress
+    missingok
+    notifempty
+    dateext
+    olddir /data/logs/nginx/old_log
+    sharedscripts
+    postrotate
+        if [ -f /var/run/nginx.pid ]; then
+          /bin/kill -USR1 `cat /var/run/nginx.pid`
+        fi
+    endscript
+}

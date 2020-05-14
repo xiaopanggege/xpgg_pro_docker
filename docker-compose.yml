@@ -1,0 +1,66 @@
+version: "3.5"
+services:
+  xpgg_web:
+    image: xiaopgg/xpgg_web:3000
+    container_name: xpgg_web
+    stop_signal: SIGINT
+    ports:
+      # 自动化平台nginx端口号
+      - "80:80"
+      # admin后台nginx端口号
+      - "8000:8000"
+      # django的启动端口号
+      - "8005:8005"
+      # rsync同步端口
+      - "873:873"
+    volumes:
+      # 挂载卷，用于迁移使用
+      - "./files/xpgg:/data/www/xpgg"
+      - "./files/xpgg_pro:/data/www/xpgg_pro"
+    environment:
+      # salt-api地址
+      SITE_SALT_API_URL: http://192.168.0.118:8080
+      # salt-api用户
+      SITE_SALT_API_NAME: saltapi
+      # salt-api密码
+      SITE_SALT_API_PWD: 123456
+      # salt服务端安装的minion的id，服务端也要安装一下minion，有很多用到的时候
+      SITE_SALT_MASTER: 192.168.0.118-master
+      # salt服务端IP，salt-ssh等调用
+      SITE_SALT_MASTER_IP: 192.168.0.118
+      # 限制上传更新等文件最大值byte,5M
+      SITE_MAX_FILE_SIZE: 5242880
+      # redis IP
+      REDIS_HOST_NAME: 192.168.0.66
+      # redis 密码
+      REDIS_PASSWORD: 123456
+      # redis 端口
+      REDIS_PORT: 6379
+      # mysql IP
+      MYSQL_HOST_NAME: 192.168.0.66
+      # mysql 用户
+      MYSQL_USER: xiaopgg
+      # mysql 密码
+      MYSQL_PASSWORD: Password123
+      # mysql 数据库
+      MYSQL_DB_NAME: xpgg_pro
+      # mysql 端口
+      MYSQL_PORT: 3306
+      # rsync IP 最好是宿主机ip，这样其他机器才能访问的到，设置为容器ip可能访问不到
+      SITE_WEB_RSYNC_IP: 192.168.0.66
+      # rsyn的端口
+      SITE_WEB_RSYNC_PORT: 873
+
+      # 以下无需修改
+      # web端的minion id,无需修改
+      SITE_WEB_MINION: xpgg-web
+    networks:
+      xpgg_net:
+        ipv4_address: 172.18.0.10
+
+networks:
+  xpgg_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.18.0.0/24"
