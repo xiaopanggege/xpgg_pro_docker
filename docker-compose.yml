@@ -14,9 +14,10 @@ services:
       # rsync同步端口
       - "873:873"
     volumes:
-      # 挂载卷，用于迁移使用
+      # 挂载外部目录，用于迁移使用
       - "./files/xpgg:/data/www/xpgg"
       - "./files/xpgg_pro:/data/www/xpgg_pro"
+      - "./files/xpgg_co:/data/xpgg_co"
     environment:
       # salt-api地址
       SITE_SALT_API_URL: http://192.168.0.118:8080
