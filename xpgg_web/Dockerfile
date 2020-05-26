@@ -38,8 +38,9 @@ CMD sed -i "s#DEBUG = True#DEBUG = False#g" ${CONF} && \
     sed -i "s#\(REDIS_PASSWORD = \).*#\1${REDIS_PASSWORD}#g" ${CONF} && \
     sed -i "s#\(REDIS_POST = \).*#\1${REDIS_POST}#g" ${CONF} && \
     sed -i "s#\(MYSQL_HOST_NAME = \).*#\1${MYSQL_HOST_NAME}#g" ${CONF} && \
-    sed -i "s#\(MYSQL_USER = \).*#\1${MYSQL_USER}#g" ${CONF} && \
-    sed -i "s#\(MYSQL_PASSWORD = \).*#\1${MYSQL_PASSWORD}#g" ${CONF} && \
+    # MYSQL_USER在mysql官方容器里有定义，所以环境变量改成MYSQL_ROOT_USER和MYSQL_ROOT_PASSWORD
+    sed -i "s#\(MYSQL_USER = \).*#\1${MYSQL_ROOT_USER}#g" ${CONF} && \
+    sed -i "s#\(MYSQL_PASSWORD = \).*#\1${MYSQL_ROOT_PASSWORD}#g" ${CONF} && \
     sed -i "s#\(MYSQL_DB_NAME = \).*#\1${MYSQL_DB_NAME}#g" ${CONF} && \
     sed -i "s#\(MYSQL_PORT = \).*#\1${MYSQL_PORT}#g" ${CONF} && \
     # salt-minion的配置

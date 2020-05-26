@@ -23,7 +23,7 @@ RUN yum install wget lrzsz vim iproute -y && \
     yum install supervisor -y && \
     sed -i 's#nodaemon=false#nodaemon=true#g' /etc/supervisord.conf && \
     # salt-minion 安装版本是3000.x当前3000版本的最高版
-    yum install http://mirrors.ustc.edu.cn/salt/yum/redhat/salt-repo-3000.el7.noarch.rpm -y  && \ 
+    yum install http://mirrors.ustc.edu.cn/salt/yum/redhat/salt-repo-3000-1.el7.noarch.rpm -y  && \ 
     yum clean expire-cache  && \
     yum install salt-minion -y  && \
     sed -i 's/#random_startup_delay: 0/random_startup_delay: 5/g' /etc/salt/minion  && \
