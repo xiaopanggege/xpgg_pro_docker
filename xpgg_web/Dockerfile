@@ -16,6 +16,9 @@ RUN sed -i 's/#   StrictHostKeyChecking ask/StrictHostKeyChecking no/g' /etc/ssh
     # 拷贝前端代码
     mv /usr/local/src/xpgg /data/www/xpgg  && \
     chown -R www.www /data/www/xpgg  && \
+    # 拷贝wait-for-it.sh
+    cp /usr/local/src/wait-for-it.sh /usr/local/wait-for-it.sh  && \
+    chmod +x /usr/local/wait-for-it.sh  && \
     rm -rf /usr/local/src/*
 EXPOSE 80 8000 8005 873     
 ENV CONF "/data/www/xpgg_pro/xpgg_pro/xpgg_conf.ini"
@@ -36,7 +39,7 @@ CMD sed -i "s#DEBUG = True#DEBUG = False#g" ${CONF} && \
     sed -i "s#\(SITE_MAX_FILE_SIZE = \).*#\1${SITE_MAX_FILE_SIZE}#g" ${CONF} && \
     sed -i "s#\(REDIS_HOST_NAME = \).*#\1${REDIS_HOST_NAME}#g" ${CONF} && \
     sed -i "s#\(REDIS_PASSWORD = \).*#\1${REDIS_PASSWORD}#g" ${CONF} && \
-    sed -i "s#\(REDIS_POST = \).*#\1${REDIS_POST}#g" ${CONF} && \
+    sed -i "s#\(REDIS_PORT = \).*#\1${REDIS_PORT}#g" ${CONF} && \
     sed -i "s#\(MYSQL_HOST_NAME = \).*#\1${MYSQL_HOST_NAME}#g" ${CONF} && \
     # MYSQL_USER在mysql官方容器里有定义，所以环境变量改成MYSQL_ROOT_USER和MYSQL_ROOT_PASSWORD
     sed -i "s#\(MYSQL_USER = \).*#\1${MYSQL_ROOT_USER}#g" ${CONF} && \
@@ -46,6 +49,8 @@ CMD sed -i "s#DEBUG = True#DEBUG = False#g" ${CONF} && \
     # salt-minion的配置
     sed -i "s/#master: salt/master: ${SITE_SALT_MASTER_IP}/g;s/#id:/id: ${SITE_WEB_MINION}/g" /etc/salt/minion  && \
     cd /data/www/xpgg_pro/ && \
+    /bin/sh /usr/local/wait-for-it.sh -t 0 ${REDIS_HOST_NAME}:${REDIS_PORT}  && \
+    /bin/sh /usr/local/wait-for-it.sh -t 0 ${MYSQL_HOST_NAME}:${MYSQL_PORT}  && \
     python3 manage.py collectstatic --noinput && \
     python3 manage.py makemigrations && \
     python3 manage.py migrate  && \
