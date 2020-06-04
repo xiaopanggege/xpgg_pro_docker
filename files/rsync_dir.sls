@@ -31,7 +31,7 @@ mkdir_name_path:
 rsync_dir:
   cmd.run:
     - name: |
-        rsync -rvtD --exclude '.svn' --exclude '.git' rsync://{{pillar['rsync_ip']}}:{{pillar['rsync_port']}}/xpgg_co/{{pillar['source_path']}}/ {{pillar['name_path']}}/ {% if 'sync_file_check_diff' in pillar and pillar['sync_file_check_diff']=='check_file' %}--delete{% endif %}
+        rsync -rvuD --partial --exclude '.svn' --exclude '.git' rsync://{{pillar['rsync_ip']}}:{{pillar['rsync_port']}}/xpgg_co/{{pillar['source_path']}}/ {{pillar['name_path']}}/ {% if 'sync_file_check_diff' in pillar and pillar['sync_file_check_diff']=='check_file' %}--delete{% endif %}
     - env:
       - LC_ALL: 'zh_CN.UTF-8'
     {% if not salt.file.directory_exists(pillar['mkdir_path']) %}
