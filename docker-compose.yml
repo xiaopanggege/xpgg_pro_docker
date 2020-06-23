@@ -19,6 +19,7 @@ services:
       - "./files/xpgg:/data/www/xpgg"
       - "./files/xpgg_pro:/data/www/xpgg_pro"
       - "./files/xpgg_co:/data/xpgg_co"
+      - "./files/salt/pki/minion:/etc/salt/pki/minion"
       # 时区以宿主机为准
       - "/etc/localtime:/etc/localtime:ro"
     env_file: .env
