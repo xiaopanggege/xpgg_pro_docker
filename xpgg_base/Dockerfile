@@ -28,8 +28,10 @@ RUN yum install wget lrzsz vim iproute -y && \
     yum install salt-minion -y  && \
     sed -i 's/#random_startup_delay: 0/random_startup_delay: 5/g' /etc/salt/minion  && \
     sed -i 's/#ping_interval: 0/ping_interval: 10/g' /etc/salt/minion  && \  
-    # rsync git svn安装
+    # rsync git svn安装 svn安装1.9版本，太低不支持忽略ssl证书
+    cp /usr/local/src/wandisco-svn.repo /etc/yum.repos.d/wandisco-svn.repo  && \
     yum install rsync git subversion -y  && \
+    git config --global http.sslVerify false  && \
     # django中有用到mysql需要安装相应依赖
     yum install python-devel mysql-devel -y && \
     # nginx 安装
