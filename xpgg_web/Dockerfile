@@ -1,5 +1,5 @@
 # 作为自动化平台后台环境安装
-FROM xiaopgg/xpgg_base:3000
+FROM xiaopgg/xpgg_base:3000.5
 MAINTAINER jiangxianfu <175714259@qq.com>
 COPY files/ /usr/local/src/
 RUN sed -i 's/#   StrictHostKeyChecking ask/StrictHostKeyChecking no/g' /etc/ssh/ssh_config  && \

@@ -1,7 +1,7 @@
 version: "3.5"
 services:
   xpgg_web:
-    image: xiaopgg/xpgg_web:3000
+    image: xiaopgg/xpgg_web:3000.5
     container_name: xpgg_web
     stop_signal: SIGINT
     restart: always
