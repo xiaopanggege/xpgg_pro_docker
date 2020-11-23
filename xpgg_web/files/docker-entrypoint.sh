@@ -35,9 +35,9 @@ sed -i "s/#master: salt/master: ${SITE_SALT_MASTER_IP}/g;s/#id:/id: ${SITE_WEB_M
 cd /data/www/xpgg_pro/ 
 /bin/sh /usr/local/wait-for-it.sh -t 0 ${REDIS_HOST_NAME}:${REDIS_PORT}  
 /bin/sh /usr/local/wait-for-it.sh -t 0 ${MYSQL_HOST_NAME}:${MYSQL_PORT}  
-python3 manage.py collectstatic --noinput 
-python3 manage.py makemigrations 
-python3 manage.py migrate  
+/usr/local/venv_xpgg_pro/bin/python3 manage.py collectstatic --noinput 
+/usr/local/venv_xpgg_pro/bin/python3 manage.py makemigrations 
+/usr/local/venv_xpgg_pro/bin/python3 manage.py migrate  
 /usr/bin/supervisord -c /etc/supervisord.conf
 
 exec "$@"

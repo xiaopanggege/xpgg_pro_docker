@@ -15,9 +15,8 @@ RUN yum install wget lrzsz vim iproute -y && \
     ./configure --prefix=/usr/local/python3.6.10 && \
     make && \
     make install && \
-    ln -s /usr/local/python3.6.10/bin/python3 /usr/bin/python3 && \
-    ln -s /usr/local/python3.6.10/bin/pip3 /usr/bin/pip3 && \
-    ln -s /usr/local/python3.6.10 /usr/local/python3  && \
+    cd /usr/local/  && \
+    /usr/local/python3.6.10/bin/python3 -m venv venv_xpgg_pro  && \
     # supervisord 安装
     wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo && \
     yum install supervisor -y && \

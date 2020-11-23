@@ -9,7 +9,7 @@ RUN sed -i 's/#   StrictHostKeyChecking ask/StrictHostKeyChecking no/g' /etc/ssh
     mv /usr/local/src/xpgg_pro /data/www/xpgg_pro  && \
     cp /usr/local/src/rsyncd.conf /etc/rsyncd.conf  && \
     cd /data/www/xpgg_pro/  && \
-    pip3 install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple  && \
+    /usr/local/venv_xpgg_pro/bin/pip3 install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple  && \
     mkdir -p /data/xpgg_co  && mkdir /data/xpgg_tmp  && \
     cp /usr/local/src/supervisord.ini /etc/supervisord.d/ && \
     # nginx配置拷贝

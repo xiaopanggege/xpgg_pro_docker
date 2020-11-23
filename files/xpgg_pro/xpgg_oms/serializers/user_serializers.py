@@ -21,7 +21,7 @@ class MyUserDetailSerializer(serializers.ModelSerializer):
         # 设置继承的数据库
         model = MyUser
         # 设置显示的字段
-        fields = ('id', 'username', 'avatar', 'groups', 'roles', 'is_superuser', 'is_active', 'password')
+        fields = ('id', 'username', 'avatar', 'groups', 'roles', 'is_superuser', 'is_active', 'password', 'email', 'date_joined', 'last_login')
         # 下面这种方式也是用来设置只读之类的
         extra_kwargs = {'password': {'write_only': True, 'style': {'input_type': 'password'}}}
         # fields = "__all__" 取所有字段
@@ -44,5 +44,11 @@ class MyUserDetailSerializer(serializers.ModelSerializer):
         instance.is_active = validated_data.get('is_active', instance.is_active)
         instance.is_superuser = validated_data.get('is_superuser', instance.is_superuser)
         instance.avatar = validated_data.get('avatar', instance.avatar)
+        instance.email = validated_data.get('email', instance.email)
         instance.save()
         return instance
+
+
+# 用户密码验证
+class PasswordAuthSerializer(serializers.Serializer):
+    password = serializers.CharField()
